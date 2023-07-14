@@ -7,7 +7,7 @@
         const page = await browser.newPage();
         await page.goto('https://finance.yahoo.com/world-indices');
         await page.waitForTimeout(5000); // wait for 5 seconds
-        console.log("hello world!")
+        console.log("hello world")
         await browser.close();
     }
 
