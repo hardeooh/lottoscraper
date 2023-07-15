@@ -5,8 +5,15 @@
         });
 
         const page = await browser.newPage();
-        await page.goto('https://finance.yahoo.com/world-indices');
-        await page.waitForTimeout(5000); // wait for 5 seconds
+        await page.goto('https://www.calottery.com/scratchers#endTable');
+        	
+        const hrefs = await page.evaluate(() => {
+          return Array.from(document.links).map(item => item.href).filter(item => item.indexOf('$') > -1);
+          });
+        
+        hrefs.sort()
+
+        console.log(hrefs, hrefs.length)
         console.log("hello world")
         await browser.close();
     }
