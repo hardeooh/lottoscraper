@@ -1,5 +1,5 @@
 const playwright = require('playwright');
-async function main() {
+async function extractData() {
     const browser = await playwright.chromium.launch({
         headless: true // setting this to true will not run the UI
     });
@@ -23,4 +23,4 @@ async function main() {
     await browser.close();
 }
 
-main();
+module.exports = { extractData }
