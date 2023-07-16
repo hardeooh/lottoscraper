@@ -5,18 +5,20 @@ async function extractData(urlArray) {
     });
     const scrapedData = []
     console.log(urlArray, urlArray.length);
-    for(let i=0;i<3;i++){
+    for(let i=0;i<urlArray.length;i++){
       const page = await browser.newPage();
       await page.goto(await urlArray[i]);
       await page.waitForTimeout(3000);	
       const rowCount = await page.locator('table').locator('tr').count();
-      console.log(rowCount);
+      console.log(rowCount, `counting on ${urlArray}`);
   
       for(let i=0;i<rowCount;i++){
         scrapedData.push(
-        await page.locator('table').locator('tr').nth(i).innerText()
+          `${await page.locator('h1').innerText()}\t${await page.locator('table').locator('tr').nth(i).innerText()}`
         )
-      }  
+      }
+      
+      
     }
     await browser.close();
     console.log(scrapedData, 'pullData')
