@@ -1,7 +1,7 @@
 const playwright = require('playwright');
 const { extractData } = require('./pullData.js')
 
-    async function main() {
+    async function getURL() {
         const browser = await playwright.chromium.launch({
             headless: true // setting this to true will not run the UI
         });
@@ -24,13 +24,15 @@ const { extractData } = require('./pullData.js')
         //     )
         //   console.log(scrapedData)
         // }
-        
-
-        console.log(unique_hrefs, unique_hrefs.length)
         // console.log(hrefs2, 'testing')
 
         await browser.close();
+        return unique_hrefs
     }
 
-    main();
-    extractData();
+    async function main(){
+      const lottoURL = await getURL()
+      await extractData(lottoURL)
+    }
+
+    main()
