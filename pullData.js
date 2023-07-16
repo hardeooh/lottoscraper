@@ -7,7 +7,7 @@ async function getURL() {
   });
   const page = await browser.newPage();
   await page.goto('https://www.calottery.com/scratchers#endTable');
-  await page.waitForTimeout(3000)	
+  await page.waitForSelector('.footer--icon')	
   const hrefs = await page.evaluate(() => {
     return Array.from(document.links).map(item => item.href).filter(item => item.indexOf('$') > -1);
     });
@@ -28,7 +28,7 @@ async function extractData(urlArray) {
     for(let i=0;i<1;i++){
       const page = await browser.newPage();
       await page.goto(await urlArray[i]);
-      await page.waitForTimeout(1000);	
+      await page.waitForSelector('.footer--icon')	
       const rowCount = await page.locator('table').locator('tr').count();
       console.log(rowCount, `counting on ${urlArray[i]}`);
       
@@ -38,8 +38,6 @@ async function extractData(urlArray) {
           `${await page.locator('h1').innerText()}\t${await page.locator('.scratchers-game-detail__info-price').innerText()}\t${await page.locator('table').locator('tr').nth(i).innerText()}`
         )
       }
-      
-      
     }
     await browser.close();
     console.log(scrapedData, 'pullData')
