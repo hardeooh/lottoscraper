@@ -13,19 +13,18 @@
         hrefs.sort()
         const unique_hrefs = hrefs.filter((e,i,a)=> a.indexOf(e) === i)
         
-        for (let i=0;i<4;i++){
-          await page.goto(unique_hrefs[i]);
-          await page.waitForTimeout(3000)
-          scrapedData.push(await page.evaluate(() => {
-            return Array.from(document.links).map(item => item.href);
-            })
-            )
-          
-          console.log(scrapedData)
-        }
+        // for (let i=0;i<4;i++){
+        //   await page.goto(unique_hrefs[i]);
+        //   await page.waitForTimeout(3000)
+        //   scrapedData.push(await page.evaluate(() => {
+        //     return Array.from(document.links).map(item => item.href);
+        //     })
+        //     )
+        //   console.log(scrapedData)
+        // }
         
 
-        // console.log(unique_hrefs, unique_hrefs.length, hrefs2)
+        console.log(unique_hrefs, unique_hrefs.length)
         // console.log(hrefs2, 'testing')
 
         await browser.close();
