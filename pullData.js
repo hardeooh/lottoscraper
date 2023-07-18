@@ -24,7 +24,7 @@ async function getURL() {
   const unique_hrefs = hrefs.filter((e,i,a)=> a.indexOf(e) === i)
   await browser.close();
   return unique_hrefs
-}
+} 
 
 //Go to each scratcher URL and extract game and odds data
 async function extractData(urlArray) {
