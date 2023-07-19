@@ -44,15 +44,32 @@ async function extractScratcherData(urlArray) {
     //Push each row data into an array
     for(let i=0;i<rowCount;i++){
       scrapedData.push(
-        `${year}-${month}-${date} ${hours}:${minutes}:${seconds}\t${await page.locator('h1').innerText()}\t${await page.locator('.scratchers-game-detail__info-price').innerText()}\t${await page.locator('table').locator('tr').nth(i).innerText()}`
+        `${year}-${month}-${date} ${hours}:${minutes}:${seconds}\t${await page.locator('.breadcrumb-item').nth(2).innerText()}\t${await page.locator('h1').innerText()}\t${await page.locator('.scratchers-game-detail__info-price').innerText()}\t${await page.locator('table').locator('tr').nth(i).innerText()}`
       )
     }
   }
   await browser.close();
-  return scrapedData
   console.log(scrapedData, 'pullData')
+  return scrapedData
 }
 
-function cleanScratcherData
+function cleanScratcherData(scratcherArray) {
+  const nArray = scratcherArray
+    .map(data => {
+    return data.split('\t')
+  })
 
-module.exports = { getScratcherURL, extractScratcherData }
+  for(let i=0;i<nArray.length;i++){
+    nArray[i][1] = nArray[i][1].slice(-5,-1)
+    nArray[i][3] = nArray[i][3].slice(nArray[i][3].indexOf('$')+1)
+    nArray[i][4] = nArray[i][4].slice(nArray[i][4].indexOf('$')+1) 
+    const separateString = nArray[i][6].split(' of ')
+    nArray[i].push(separateString[1])
+    console.log(separateString)
+    nArray[i][6] = nArray[i][6].slice(0,nArray[i][6].indexOf(' '))
+  }
+  console.log(nArray)
+  
+}
+
+module.exports = { getScratcherURL, extractScratcherData, cleanScratcherData }

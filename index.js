@@ -1,4 +1,4 @@
-const { getScratcherURL, extractScratcherData } = require('./pullData.js')
+const { getScratcherURL, extractScratcherData, cleanScratcherData } = require('./pullData.js')
 
 const playwright = require('playwright');
 require('dotenv').config()
@@ -26,7 +26,8 @@ app.get('/api/gt', (req,res)=>{
 
     async function main(){
       const lottoURL = await getScratcherURL()
-      await extractScratcherData(lottoURL)
+      const dirtyScratcherData = await extractScratcherData(lottoURL)
+      cleanScratcherData(dirtyScratcherData)
     }
 
-    // main()
+    main()
