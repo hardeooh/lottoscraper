@@ -25,8 +25,8 @@ app.get('/api/gt', (req,res)=>{
 
 
     async function main(){
-      const lottoURL = await getURL()
-      await extractData(lottoURL)
+      const lottoURL = await getScratcherURL()
+      await extractScratcherData(lottoURL)
     }
 
     // main()
