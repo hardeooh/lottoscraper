@@ -1,4 +1,4 @@
-const { getURL, extractData } = require('./pullData.js')
+const { getScratcherURL, extractScratcherData } = require('./pullData.js')
 
 const playwright = require('playwright');
 require('dotenv').config()

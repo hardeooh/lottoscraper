@@ -10,7 +10,7 @@ const minutes = dateObject.getMinutes();
 const seconds = dateObject.getSeconds();
 
 //Retrieve game URLs from CAlotto table 
-async function getURL() {
+async function getScratcherURL() {
   const browser = await playwright.chromium.launch({
       headless: true // setting this to true will not run the UI
   });
@@ -27,7 +27,7 @@ async function getURL() {
 } 
 
 //Go to each scratcher URL and extract game and odds data
-async function extractData(urlArray) {
+async function extractScratcherData(urlArray) {
   const browser = await playwright.chromium.launch({
       headless: true // setting this to true will not run the UI
   });
@@ -49,7 +49,10 @@ async function extractData(urlArray) {
     }
   }
   await browser.close();
+  return scrapedData
   console.log(scrapedData, 'pullData')
 }
 
-module.exports = { getURL, extractData }
+function cleanScratcherData
+
+module.exports = { getScratcherURL, extractScratcherData }
