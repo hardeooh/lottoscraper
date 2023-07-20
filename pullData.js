@@ -1,6 +1,6 @@
 const playwright = require('playwright');
 
-//assign date object to take timestamp for scraping
+//Assign date object to take timestamp for scraping
 const dateObject = new Date();
 const date = (`0${dateObject.getDate()}`).slice(-2);
 const month = (`0${dateObject.getMonth() + 1}`).slice(-2);
@@ -52,12 +52,14 @@ async function extractScratcherData(urlArray) {
   return scrapedData
 }
 
+//Take array of scratcher data and modify each element to get it ready for insertion into DB
 function cleanScratcherData(scratcherArray) {
   const arraySplit = scratcherArray
     .map(data => {
     return data.split('\t')
   })
 
+  //Modify each element to return cleaned up data
   for(let i=0;i<arraySplit.length;i++){
     arraySplit[i][1] = arraySplit[i][1].slice(-5,-1)
     arraySplit[i][3] = arraySplit[i][3].slice(arraySplit[i][3].indexOf('$')+1)
@@ -69,12 +71,11 @@ function cleanScratcherData(scratcherArray) {
     arraySplit[i][6] = arraySplit[i][6].slice(0,arraySplit[i][6].indexOf(' '))
   }
 
-  const removeHeader = arraySplit.filter(data=>{
+  const removeHeaderFromArray = arraySplit.filter(data=>{
     return data[4] != 'Prizes'
   })
 
-  return removeHeader;
-
+  return removeHeaderFromArray;
 }
 
 module.exports = { getScratcherURL, extractScratcherData, cleanScratcherData }
