@@ -27,7 +27,8 @@ app.get('/api/gt', (req,res)=>{
     async function main(){
       const lottoURL = await getScratcherURL()
       const dirtyScratcherData = await extractScratcherData(lottoURL)
-      cleanScratcherData(dirtyScratcherData)
+      const dataForDB = cleanScratcherData(dirtyScratcherData)
+      console.log(dataForDB);
     }
 
     main()
