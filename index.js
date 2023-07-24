@@ -29,6 +29,7 @@ app.get('/api/gt', (req,res)=>{
       const dirtyScratcherData = await extractScratcherData(lottoURL)
       const dataForDB = cleanScratcherData(dirtyScratcherData)
       console.log(dataForDB);
+      console.log(dataForDB.length);
     }
 
     main()
