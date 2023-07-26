@@ -81,7 +81,6 @@ function cleanScratcherData(scratcherArray) {
       tickets_remaining: separateString[1]
     }
   }
-
   return cleanData
 }
 
