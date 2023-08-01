@@ -1,7 +1,7 @@
 const mysql = require('mysql2')
 const connection = mysql.createConnection(process.env.DATABASE_URL)
 
-function updateScratcherGameData (cleanData){
+async function updateScratcherGameData(cleanData){
 
   // Return only unique game names into the array
   const uniqueGameData = cleanData.filter((e,i,a)=>
@@ -10,10 +10,10 @@ function updateScratcherGameData (cleanData){
   console.log(uniqueGameData.length);
   
   // Insert into database games that do not exist yet
-  uniqueGameData.map(e=>{
-    const insertGameData = `INSERT INTO game (name,scratcher_lotto_id,gametype_id,active) VALUES ('${e["name"]}',${e["scratcher_id"]},1,1)`;
+  await uniqueGameData.map(e=>{
+    const insertGameData = `INSERT INTO game (name,scratcher_lotto_id,gametype_id,active) VALUES ('${e["name"]}',${e["scratcher_id"]},1,1);`;
 
-    connection.query(`SELECT name FROM game WHERE name='${e["name"]}'`, (err,rows)=>{  
+    connection.query(`SELECT name FROM game WHERE name='${e["name"]}';`, (err,rows)=>{  
       if (err){
         throw err;
       }
@@ -22,19 +22,21 @@ function updateScratcherGameData (cleanData){
         console.log('insertion into game table done!');   
         }     
       }
-    )})
+    )
+  })
+
 }
 
-function updateScratcherRowData(cleanData){
-  cleanData.map(e=>{
-    console.log(e);
-    connection.query(`SELECT game_id FROM game WHERE name='${e["name"]}' AND scratcher_lotto_id='${e["scratcher_id"]}'`, (err,rows)=>{  
-      const insertScratcherData = `INSERT INTO scratcher_data (scrape_date,game_id,prize,odds,remaining_prize,total_prize) VALUES ((TIMESTAMP(NOW())),${rows[0]["game_id"]},${e["prize"]},${e["odds"]},${e["tickets_left"]},${e["tickets_remaining"]})`
+async function updateScratcherRowData(cleanData){
+
+  await cleanData.map(e=>{
+    connection.query(`SELECT game_id FROM game WHERE name='${e["name"]}' AND scratcher_lotto_id='${e["scratcher_id"]}';`, (err,rows)=>{  
+      const insertScratcherData = `INSERT INTO scratcher_data (scrape_date,game_id,prize,odds,remaining_prize,total_prize) VALUES ((TIMESTAMP(NOW())),${rows[0]["game_id"]},${e["prize"]},${e["odds"]},${e["tickets_left"]},${e["tickets_remaining"]});`
 
       if (err){
+        console.log('problem updating scratcher row data');
         throw err;
       }
-        console.log(insertScratcherData);
         connection.query(insertScratcherData)
       }
     )})
