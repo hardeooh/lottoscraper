@@ -18,8 +18,8 @@ app.listen(port, ()=>{
   console.log('Server is Running');
 })
 
-app.get('/api/gt', (req,res)=>{
-  const query = 'SELECT * FROM game_type';
+app.get('/api/game', (req,res)=>{
+  const query = 'SELECT * FROM game;';
   connection.query(query, (err,rows)=>{
     if(err) throw err;
     res.send(rows)
