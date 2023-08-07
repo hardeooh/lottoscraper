@@ -27,20 +27,21 @@ app.get('/api/gt', (req,res)=>{
 })
 
 
-    async function main(){
-      
-      const lottoURL = await getScratcherURL(url)
-      const dirtyScratcherData = await extractScratcherData(lottoURL)
-      const dataForDB = cleanScratcherData(dirtyScratcherData)
-      await updateScratcherGameData(dataForDB)
-      setTimeout(() => {
-        updateScratcherRowData(dataForDB)
-      }, 5000);
-      console.log(dataForDB.length,`total rows without headers`);
-    }
-    main();
+async function main(){
+  const lottoURL = await getScratcherURL(url)
+  const dirtyScratcherData = await extractScratcherData(lottoURL)
+  const dataForDB = cleanScratcherData(dirtyScratcherData)
+  await updateScratcherGameData(dataForDB)
+  setTimeout(() => {
+    updateScratcherRowData(dataForDB)
+  }, 5000);
+  console.log(dataForDB.length,`total rows without headers`);
+}
 
-    // cron.schedule('*/8 * * * *', () => {
-    //   console.log('running a task every 10 minutes');
-    //   main();      
-    // });
+cron.schedule('30 3 * * 0-6', () => {
+  console.log(`Scraper Running Now!`);
+  main();      
+},{
+  scheduled: true,
+  timezone: "America/Los_Angeles"
+});
